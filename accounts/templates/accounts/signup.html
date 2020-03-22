@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'signin.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+<form class="form-signin" method="post" action="{% url 'accounts:signup' %}">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <div class="form-group">
+        <label for="{{ signup_form.username.id_for_label }}" class="sr-only">{{ signup_form.username.label }}</label>
+        {% render_field signup_form.username class="form-control" placeholder=signup_form.username.label %}
+    </div>
+    <div class="form-group">
+        <label for="{{ signup_form.email.id_for_label }}" class="sr-only">{{ signup_form.email.label }}</label>
+        {% render_field signup_form.email class="form-control" placeholder=signup_form.email.label %}
+    </div>
+    <div class="form-group">
+        <label for="{{ signup_form.password.id_for_label }}" class="sr-only">{{ signup_form.password.label }}</label>
+        {% render_field signup_form.password class="form-control" placeholder=signup_form.password.label %}
+    </div>
+    <div class="form-group">
+        <label for="{{ profile_form.gender.id_for_label }}" class="sr-only">{{ profile_form.gender.label }}</label>
+        {% render_field profile_form.gender class="form-control" placeholder=profile_form.gender.label %}
+    </div>
+    <div class="form-group">
+        <label for="{{ profile_form.birth_year.id_for_label }}" class="sr-only">{{ profile_form.birth_year.label }}</label>
+        {% render_field profile_form.birth_year class="form-control" placeholder=profile_form.birth_year.label %}
+        {% render_field profile_form.birth_month class="form-control" placeholder=profile_form.birth_month.label %}
+        {% render_field profile_form.birth_day class="form-control" placeholder=profile_form.birth_day.label %}
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+{% endblock %}

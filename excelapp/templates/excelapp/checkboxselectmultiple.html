@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+<h3>excelapp.multiplechoice({{user.username}})</h3>
+<form method="post" action="">{% csrf_token %}
+  {% for field in form %}
+  {% if field.field.widget.input_type == "radio" %}
+    <div class="form-group row my-4">
+         <div class="col-lg-2 col-form-label">
+          {{ field.label_tag }}
+        </div>
+        
+        {% for r in field %}
+        <div class="col-lg-2  form-check">
+          <div class="custom-control custom-radio">
+            {{ r.tag }}
+            <label class="custom-control-label" for="{{ r.id_for_label }}">{{ r.choice_label }}</label>
+          </div>
+        </div> 
+        {% endfor %}
+    </div>
+  {% else %}
+    <div class="form-group row my-3">
+        <div class="col-lg-2 col-form-label">
+            {{ field.label_tag }}
+        </div>
+        {% for c in field %}
+        <div class="col-lg-2 form-check" style="background-color: aqua;">
+          <div class="custom-control custom-checkbox">
+            {{ c.tag }}
+            <label class="custom-control-label" for="{{ c.id_for_label }}">{{ c.choice_label }}</label>
+          </div>
+        </div>
+        <!-- <div class="col-lg-2 form-check">
+          <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="{{ c.data.attrs.id }}" name="{{ c.data.name }}" value="{{ c.data.value }}">
+              <label class="custom-control-label" for="{{ c.data.attrs.id }}">{{ c.data.label }}</label>
+          </div>
+        </div> -->
+        {% endfor %}
+    </div>
+  {% endif %}
+{% endfor %} 
+<button class="btn btn-lg btn-primary btn-block" type="submit">送信</button>
+</form>
+{% endblock %}

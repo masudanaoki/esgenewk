@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+{% load math_tags %}
+{% load custumfilter %}
+
+<h3>excelapp.custumfilter({{user.username}})</h3>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">pk</th>
+        <th scope="col">department_name</th>
+        <th scope="col">num</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for department in departments %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{department.pk|multiply:2|padding0:5}}</td>
+        <td>{{department.department_name}}</td>
+        <td>{{12345|num_delimiter}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">pk</th>
+        <th scope="col">service_name</th>
+        <th scope="col">num</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for department in departments %}
+    {% for service in department.services.all %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{service.pk|padding0:5}}</td>
+        <td>{{department.department_name}}:{{service.service_name}}</td>
+        <td>{{12345|num_delimiter}}</td>
+      </tr>
+    {% endfor %}
+    {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">pk</th>
+        <th scope="col">service_name</th>
+        <th scope="col">num</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for department in departments %}
+    {% for workflow in department.tm_workflow_set.all %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{workflow.pk|padding0:5}}</td>
+        <td>{{department.department_name}}:{{workflow.workflow_route}}</td>
+        <td>{{12345|num_delimiter}}</td>
+      </tr>
+    {% endfor %}
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+<h3>excelapp.customcheckboxselectmultiple({{user.username}})</h3>
+<form method="post" action="">{% csrf_token %}
+  {% for field in form %}
+  {% if field.field.widget.input_type == "radio" %}
+    <div class="form-group row my-4">
+         <div class="col-lg-2 col-form-label">
+          {{ field.label_tag }}
+        </div>
+        
+        {% for r in field %}
+        <div class="col-lg-2  form-check">
+          <div class="custom-control custom-radio">
+            {{ r.tag }}
+            <label class="custom-control-label" for="{{ r.id_for_label }}">{{ r.choice_label }}</label>
+          </div>
+        </div> 
+        {% endfor %}
+    </div>
+  {% else %}
+    <div class="form-group row my-3">
+        <div class="col-lg-2 col-form-label">
+            {{ field.label_tag }}
+        </div>
+        {% for c in field %}
+        <div class="col-lg-2 form-check">
+            {{ c }}
+            <!-- <label for="{{ c.id_for_label }}">{{ c.choice_label }}</label> -->
+        </div>
+        {% endfor %}
+    </div>
+  {% endif %}
+{% endfor %} 
+<style>
+  input[type="checkbox"] {
+      display: none;
+  }
+
+  label {
+      display: inline-block;
+      border-radius: 20px;
+      text-align: center;
+      text-decoration: none;
+      border: solid 1px #ccc;
+      transition: 0.25s;
+      padding: 6px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 3px;
+  }
+
+  input[type="checkbox"]:checked + label {
+      background: #00809d;
+      color: #fff;
+  }
+</style>
+<button class="btn btn-lg btn-primary btn-block" type="submit">送信</button>
+</form>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="{% url 'excelapp:upload_input' %}">サービス作成</a></p><hr>
+{% for member in object_list %}
+    <p>部門: {{ member.department }}</p><hr>
+    <p>サービス: {{ member.service_name }}</p><hr>
+{% endfor %}
+{% endblock %}
