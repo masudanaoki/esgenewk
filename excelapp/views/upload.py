@@ -7,7 +7,8 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import generic
-
+from django.urls import reverse
+from urllib.parse import urlencode
 from excelapp.forms.upload import ServiceForm
 from excelapp.models import Tm_Department, Tm_Service
 from excelapp.utils.base64_util import CustomBase64
@@ -57,7 +58,17 @@ def input(request):
 
 
             request.session['details'] = details
-            return redirect('excelapp:upload_confirm')
+
+
+
+            redirect_url = reverse('excelapp:upload_confirm')
+            parameters = urlencode({'back': 'excelapp:upload_input'})
+            url = f'{redirect_url}?{parameters}'
+            return redirect(url)
+
+
+
+            # return redirect('excelapp:upload_confirm', )
     context = {
         'form': form
     }
@@ -68,6 +79,9 @@ def input(request):
     return render(request, 'excelapp/upload/input.html', context)
 
 def confirm(request):
+    if 'HTTP_REFERER' in request.META and request.META['HTTP_REFERER']:
+        print(request.META['HTTP_REFERER'])
+
     details = request.session.get('details', None)
     if details is None:
         return redirect('excelapp:upload_input')
