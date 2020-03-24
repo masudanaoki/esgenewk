@@ -2,7 +2,6 @@ from django import template
 
 register = template.Library()
 
-# カスタムタグとして登録する
 @register.simple_tag
 def add_attr(field, *args, **attr):
     print(field)
