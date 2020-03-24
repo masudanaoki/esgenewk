@@ -7,7 +7,7 @@ from django.core.files.storage import default_storage
 
 from excelapp.models import Tm_Department, Tm_Service
 from excelapp.utils.file_util import CustomFile
-
+from excelapp.utils.form_utils import FormUtil
 
 class ServiceForm(forms.Form):
     department = forms.ModelChoiceField(
@@ -29,12 +29,19 @@ class ServiceForm(forms.Form):
         self.details = kwargs.pop('details') if 'details' in kwargs else None
         super().__init__(*args, **kwargs)
 
-    def clean_upload_file(self):
+    # def clean_upload_file(self):
+    #     infile = self.cleaned_data.get("upload_file")
+    #     file_path = self.get_details('file_path')
+    #     if infile is None and file_path is None:
+    #         raise forms.ValidationError('アップロードファイルは必須です。')
+    #     return infile
+
+    def clean(self):
         infile = self.cleaned_data.get("upload_file")
         file_path = self.get_details('file_path')
         if infile is None and file_path is None:
-            raise forms.ValidationError('アップロードファイルは必須です。')
-        return infile
+            FormUtil.append_validation_error(self, 'upload_file', 'アップロードファイルは必須です。')
+        return self.cleaned_data
 
     def upload_file_save(self):
         infile = self.cleaned_data.get("upload_file")
