@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 {% load widget_tweaks %}
+{% load customtag %}
 <form action="" method="POST" enctype="multipart/form-data">
     {{ form.non_field_errors }}
     {% for field in form %}
     <div class="form-row">
         <div class="col-sm-7">
             <div class="form-group">
-              <label for="{{field.id_for_label}}">{{ field.label_tag }}</label>
+              <!-- <label for="{{field.id_for_label}}">{{ field.label_tag }}</label> -->
               {% if field.field.widget.input_type == "file" %}
-                {% if file_url %}
+                <!-- {% if file_url %}
                   <a href="{{file_url}}" class="">{{file_url}}</a>
                 {% endif %}
                 {% if field.errors %}
@@ -21,9 +22,9 @@
                   {% endfor %}
                 {% else %}
                   {% render_field field class="form-control-file is-valid" %}
-                {% endif %}
+                {% endif %} -->
               {% else %}
-                {% if form.is_bound %}
+                <!-- {% if form.is_bound %}
                   {% if field.errors %}
                     {% render_field field class="form-control is-invalid" placeholder=field.label %}
                     {% for error in field.errors %}
@@ -36,12 +37,27 @@
                   {% endif %}
                 {% else %}
                   {% render_field field class="form-control" placeholder=field.label %}
-                {% endif %}
+                {% endif %} -->
               {% endif %}
             </div>
         </div>
     </div>
     {% endfor %}
+
+    {% add_attr form.service_name class="form-control" placeholder=form.service_name.label %}
+    {% for error in form.service_name.errors %}
+    <div class="invalid-feedback">
+      {{ error }}
+    </div>
+    {% endfor %}
+    <br>
+    {% add_attr form.upload_file class="form-control-file" %}
+    {% for error in form.upload_file.errors %}
+    <div class="invalid-feedback">
+      {{ error }}
+    </div>
+    {% endfor %}
+    <br>
     {% csrf_token %}
     <button type="submit" class="btn btn-primary btn-lg">送信</button>
 </form>

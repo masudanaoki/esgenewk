@@ -20,7 +20,7 @@ class ServiceForm(forms.Form):
         label=Tm_Service._meta.get_field('service_name').verbose_name,
         max_length=Tm_Service._meta.get_field('service_name').max_length,
         widget=forms.TextInput(attrs={'class':'form-control'}),
-        required=True)
+        required=False)
     upload_file = forms.FileField(
         label=Tm_Service._meta.get_field('upload_file').verbose_name,
         required=False)
@@ -37,6 +37,10 @@ class ServiceForm(forms.Form):
     #     return infile
 
     def clean(self):
+        service_name = self.cleaned_data.get("service_name")
+        if service_name is None or service_name == '':
+            FormUtil.append_validation_error(self, 'service_name', 'サービス名は必須です。')
+
         infile = self.cleaned_data.get("upload_file")
         file_path = self.get_details('file_path')
         if infile is None and file_path is None:
