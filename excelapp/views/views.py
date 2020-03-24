@@ -4,7 +4,7 @@ from django.template.context_processors import csrf
 # from users.models import Tm_Department
 
 from excelapp.forms import forms
-from excelapp.models import Tm_Department
+from excelapp.models import Tm_Department, Tm_Service
 
 
 # Create your views here.
@@ -22,13 +22,36 @@ def index(request):
 
     department = Tm_Department.objects.get(pk=1)
 
+
+
+
     for service in department.services.all():
         print(service)
+
+
+    map_list = map(lambda x: x.service_name, Tm_Service.objects.all())
+    list_ = list(map_list)
+    print(list_)
+
+    map_list1 = map(_get_service_name, Tm_Service.objects.all())
+    list_1 = list(map_list1)
+    print(list_1)
+
+    map_list2 = map(lambda x: x.department_name, filter(lambda x: x.department_name == '部門Ａ', Tm_Department.objects.all()))
+    list_2 = list(map_list2)
+    print(list_2)
+
+
+
 
     # for service in department.Tm_Service_set.all():
     #     print(service)
 
     return render(request, 'excelapp/index.html')
+
+def _get_service_name(tm_service):
+    return tm_service.service_name
+
 
 def multiplechoice(request):
     labels = ['チェック','複数チェック','ラジオボタン','動的選択肢１','動的選択肢２']
