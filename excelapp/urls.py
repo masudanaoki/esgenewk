@@ -15,6 +15,7 @@ urlpatterns = [
 
     path('upload/', upload.ServiceList.as_view(), name='upload_List'),
     path('upload/input/', upload.input, name='upload_input'),
+    path('upload/update/<int:pk>/', upload.update, name='upload_update'),
     path('upload/confirm/', upload.confirm, name='upload_confirm'),   
     path('upload/create/', upload.create, name='upload_create'),  
 ]

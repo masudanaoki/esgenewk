@@ -1,17 +1,22 @@
 from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
-
+from django.core.files.storage import default_storage
+from datetime import datetime
 from users.models import *
 
 User = get_user_model()
 
+def custom_upload_to(instance, filename):
+    wkpath = '/'.join([datetime.now().strftime('%Y%m%d'), instance.service_name, filename])
+    wkfile = default_storage.path(wkpath)
+    return wkfile
 
 # Create your models here.
 class Tm_Service(BaseModel):
     department = models.ForeignKey(Tm_Department, on_delete=models.PROTECT, related_name='services', verbose_name ='部門')
     service_name = models.CharField(max_length=200, verbose_name ='サービス名')
-    upload_file = models.FileField(null=True, blank=True, upload_to='upload', verbose_name ='アップロードファイル')
+    upload_file = models.FileField(null=True, blank=True, upload_to=custom_upload_to, verbose_name ='アップロードファイル')
     def __str__(self):
         return self.service_name
 
@@ -19,6 +24,16 @@ class Tm_Service(BaseModel):
         db_table = 'Tm_Service'
         verbose_name ='サービスマスタ'
         verbose_name_plural = 'サービスマスタ'
+
+    # def save(self, *args, **kwargs):
+    #     try:
+    #         original_tm_service = Tm_Service.objects.get(pk=self.pk)
+    #         if original_tm_service.upload_file:
+    #             original_tm_service.upload_file.delete(save=False)
+    #     except self.DoesNotExist:
+    #         pass
+    #     super(Tm_Service, self).save(*args, **kwargs)
+
 
 class Tm_Workflow(BaseModel):
     WORKFLOW_ROUTE = (

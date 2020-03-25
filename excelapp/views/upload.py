@@ -49,25 +49,11 @@ def input(request):
             details['form_data'] = request.POST
             details['file_url'] = file_url
             details['file_path'] = file_path
-
-            details2 = {}
-            details2['form_data2'] = request.POST
-            details2['file_url2'] = file_url
-            details2['file_path2'] = file_path
-            details.update(details2)
-
-
             request.session['details'] = details
-
-
-
             redirect_url = reverse('excelapp:upload_confirm')
             parameters = urlencode({'back': 'excelapp:upload_input'})
             url = f'{redirect_url}?{parameters}'
             return redirect(url)
-
-
-
             # return redirect('excelapp:upload_confirm', )
     context = {
         'form': form
@@ -77,6 +63,37 @@ def input(request):
         context['file_path'] = details['file_path']
 
     return render(request, 'excelapp/upload/input.html', context)
+
+def update(request, pk):
+    details = request.session.get('details', None)
+    tm_service = Tm_Service.objects.get(pk=pk)
+    if request.method == 'GET':
+        initial = {}
+        if details and 'form_data' in details:
+            form_data = details['form_data']
+            initial['department'] = form_data['department']
+            initial['service_name'] = form_data['service_name']
+        elif tm_service:
+            initial['department'] = tm_service.department
+            initial['service_name'] = tm_service.service_name
+       
+        form = ServiceForm(None, initial=initial, details=details)
+    else:
+        form = ServiceForm(data=request.POST, files=request.FILES, details=details)
+        if form.is_valid():
+            tm_service.department = form.cleaned_data['department']
+            tm_service.service_name = form.cleaned_data['service_name']
+            upload_file = form.cleaned_data['upload_file']
+            tm_service.upload_file.delete(save=False)
+            tm_service.upload_file.save(upload_file.name, upload_file)
+            tm_service.save()
+            return redirect('excelapp:upload_List')
+        else:
+            pass
+    context = {
+        'form': form
+    }
+    return render(request, 'excelapp/upload/update.html', context)
 
 def confirm(request):
     if 'HTTP_REFERER' in request.META and request.META['HTTP_REFERER']:
