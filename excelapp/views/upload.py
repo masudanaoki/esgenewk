@@ -62,7 +62,7 @@ def input(request):
         context['file_url'] = details['file_url']
         context['file_path'] = details['file_path']
 
-    return render(request, 'excelapp/upload/input.html', context)
+    return render(request, 'excelapp/upload/input_field.html', context)
 
 def update(request, pk):
     details = request.session.get('details', None)
@@ -87,6 +87,14 @@ def update(request, pk):
             tm_service.upload_file.delete(save=False)
             tm_service.upload_file.save(upload_file.name, upload_file)
             tm_service.save()
+
+            tm_servicecopy = Tm_Service()
+
+
+            tm_servicecopy.save()
+
+
+
             return redirect('excelapp:upload_List')
         else:
             pass

@@ -1,9 +1,10 @@
+# from users.models import Tm_Department
+from django.forms import formset_factory, modelformset_factory
 from django.shortcuts import render
 from django.template.context_processors import csrf
 
-# from users.models import Tm_Department
-
 from excelapp.forms import forms
+from excelapp.forms.formset import ServiceCreateForm, ServiceCreateFormSet, ServiceForm
 from excelapp.models import Tm_Department, Tm_Service
 
 
@@ -56,7 +57,7 @@ def _get_service_name(tm_service):
 def multiplechoice(request):
     labels = ['チェック','複数チェック','ラジオボタン','動的選択肢１','動的選択肢２']
     results = {}
-    form = ChkForm(request.POST or None)
+    form = forms.ChkForm(request.POST or None)
     choice1 = []
     choice1.append(('1','動的選択肢１'))
     choice1.append(('2','動的選択肢２'))
@@ -92,7 +93,7 @@ def custumfilter(request):
 
 def customcheckboxselectmultiple(request):
     results = {}
-    form = CustommCheckboxForm(request.POST or None)
+    form = forms.CustommCheckboxForm(request.POST or None)
     if request.method == 'POST':
         results['service'] = request.POST.getlist("service")
     else:
@@ -121,3 +122,58 @@ def bootstrapform(request):
     context = {
             }
     return render(request, 'excelapp/bootstrapform.html', context)
+
+def formset(request):
+
+    serviceformset = formset_factory(
+            form=ServiceForm,
+            extra=0,
+    )
+    tm_service = Tm_Service.objects.all()
+    services = []
+    for service in tm_service:
+        service_dict = {
+            'pk': service.pk,
+            'x': service.pk,
+            'department_name': service.department.department_name,
+            'service_name': service.service_name,
+        }
+        services.append(service_dict)
+    
+    dict_ = {'form-0-delete_check': 'on'}
+    if request.method == 'GET':
+        formset = serviceformset(None, initial=services)
+    else:
+        formset = serviceformset(request.POST, initial=services) 
+
+    # serviceformset = modelformset_factory(
+    #         model=Tm_Service,
+    #         form=ServiceCreateForm,
+    #         extra=0,
+    # )
+    # if request.method == 'POST':
+    #     formset = serviceformset(request.POST, queryset=Tm_Service.objects.all()) 
+    # else:
+    #     formset = serviceformset(None, queryset=Tm_Service.objects.all())
+
+    context = {
+        'formset': formset,
+        'tm_service': tm_service,
+    }
+    return render(request, 'excelapp/formsetlist.html', context)
+
+
+
+
+
+    # formset = ServiceCreateFormSet(request.POST or None)
+    # if request.method == 'POST' and formset.is_valid():
+    #     # formset.save()
+    #     # return redirect('app:index')
+    #     print(formset)
+
+    # context = {
+    #     'formset': formset
+    # }
+
+    # return render(request, 'excelapp/formsetlist.html', context)

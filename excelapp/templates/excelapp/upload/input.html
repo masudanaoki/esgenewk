@@ -11,33 +11,28 @@
               <label for="{{field.id_for_label}}">{{ field.label_tag }}</label>
               {% if field.field.widget.input_type == "file" %}
                 {% if file_url %}
-                  <a href="{{file_url}}" class="">{{file_url}}</a>
-                {% endif %}
-                {% if field.errors %}
-                  {% render_field field class="form-control-file is-invalid" %}
-                  {% for error in field.errors %}
-                  <div class="invalid-feedback">
-                    {{ error }}
-                  </div>
-                  {% endfor %}
-                {% else %}
-                  {% render_field field class="form-control-file is-valid" %}
-                {% endif %}
-              {% else %}
-                {% if form.is_bound %}
-                  {% if field.errors %}
-                    {% render_field field class="form-control is-invalid" placeholder=field.label %}
-                    {% for error in field.errors %}
-                    <div class="invalid-feedback">
-                      {{ error }}
+                  <div class="row">
+                    <div class="col-sm-8">
+                      {% file_link file_url file_path %}
                     </div>
-                    {% endfor %}
-                  {% else %}
-                    {% render_field field class="form-control is-valid" placeholder=field.label %}
-                  {% endif %}
-                {% else %}
-                  {% render_field field class="form-control" placeholder=field.label %}
+                    <div class="col-sm-4">
+                      <button type="button" class="btn btn-primary btn-sm"　id="upload_filebtn" name="upload_filebtn">変更</button>
+                    </div>
+                  </div>
                 {% endif %}
+                {% add_attr field class="form-control-file" %}
+                {% for error in field.errors %}
+                <div class="invalid-feedback">
+                  {{ error }}
+                </div>
+                {% endfor %}
+              {% else %}
+                {% add_attr field class="form-control" placeholder=field.label %}
+                {% for error in field.errors %}
+                <div class="invalid-feedback">
+                  {{ error }}
+                </div>
+                {% endfor %}
               {% endif %}
             </div>
         </div>

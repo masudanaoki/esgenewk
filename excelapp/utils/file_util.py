@@ -12,7 +12,7 @@ class CustomFile():
         with open(file_, 'rb') as f:
             mime = mimetypes.guess_type(file_)
             fileimage = SimpleUploadedFile(f.name, bytes(f.read()), content_type=mime[0])
-            return fileimage
+        return fileimage
 
     def remove_dir(dir_):
         if default_storage.exists(dir_):

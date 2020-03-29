@@ -1,0 +1,29 @@
+{% load customtag %}
+<div class="form-row">
+  <div class="col-sm-7">
+    <div class="form-group">
+      <label for="{{field.id_for_label}}">{{ field.label_tag }}</label>
+      {% if file_url %}
+      <div class="row" data="row">
+        <div class="col-sm-8 replacediv" data="replacediv col-sm-8">
+          {% file_link file_url file_path %}
+        </div>
+        <div class="col-sm-4" data="col-sm-4">
+          <button type="button" class="btn btn-primary btn-sm filebtn" name="{{field.name}}btn">変更</button>
+        </div>
+      </div>
+      {% else %}
+      <div class="row">
+        <div class="col">
+          {% add_attr field class="form-control-file" %}
+          {% for error in field.errors %}
+          <div class="invalid-feedback">
+            {{ error }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %} 
+    </div>
+  </div>
+</div>

@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load customtag %}
 <p><a href="{% url 'excelapp:upload_input' %}">サービス作成</a></p><hr>
-{% for service in object_list %}
-    <p>部門: {{ service.department }}</p><hr>
-    <p>サービス: {{ service.service_name }}</p><hr>
-    <p>アップロードファイル: {{ service.upload_file }}</p><hr>
-    <p><a href="{% url 'excelapp:upload_update' service.pk %}" class="btn btn-primary btn-lg">更新</a></p><hr>
-{% endfor %}
+{% create_service_list %}
 {% endblock %}

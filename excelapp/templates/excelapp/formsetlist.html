@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+{% load customtag %}
+<form action="{% url 'excelapp:formset' %}" method="post">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col"></th>
+                <th scope="col">部門</th>
+                <th scope="col">サービス</th>
+                <th scope="col">アップロードファイル</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{% add_attr form.delete_check value=form.pk %}</td>
+                <td>{{form.department_name.value}}{{form.department_name.as_hidden}}</td>
+                <td>{{form.service_name.value}}{{form.service_name.as_hidden}}</td>
+                <td>{{form.service_name.value}}{{form.service_name.as_hidden}}</td>
+                <td></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {{ formset.management_form }}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">送信</button>
+</form>
+{% endblock %}

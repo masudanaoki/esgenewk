@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+{% load customtag %}
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="form-row">
+    <div class="col-sm-7">
+      <div class="form-group">
+        <label for="{{form.department.id_for_label}}">{{ form.department.label_tag }}</label>
+        {% add_attr form.department class="form-control" %}
+        {% for error in form.department.errors %}
+        <div class="invalid-feedback">
+          {{ error }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-sm-7">
+      <div class="form-group">
+        <label for="{{form.service_name.id_for_label}}">{{ form.service_name.label_tag }}</label>
+        {% add_attr form.service_name class="form-control" %}
+        {% for error in form.service_name.errors %}
+        <div class="invalid-feedback">
+          {{ error }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% if file_url %}
+  {% create_file_change form.upload_file file_url file_path %}
+  {% else %}
+  {% create_file_change form.upload_file %}
+  {% endif %}
+  <button type="submit" class="btn btn-primary btn-lg">送信</button>
+</form>
+<script>
+  $(function(){
+    $('.filebtn').on('click', function(){
+      var replacediv = $(this).parents('.row').children(".replacediv");
+      var file_input_name = $(this).attr('name').replace('btn', '')
+      console.log(file_input_name);
+      var file_input = $("<input>",{
+        "type" : "file",
+        "name" : file_input_name,
+        "class" : "form-control-file",
+        "id" : "id_" + file_input_name,
+      });
+      replacediv.html('');
+      replacediv.append(file_input);
+      // $(this).parent().html('');
+    });
+    $('#one').on('click', {name: 'one'}, showText);
+    function showText( e ) {
+      console.log(e.data.name);
+    }
+  });
+</script>
+{% endblock %}
+

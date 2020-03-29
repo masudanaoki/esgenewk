@@ -76,4 +76,3 @@ class CustommCheckboxForm(forms.Form):
           choices=lambda: [(tm_Service.pk, tm_Service.service_name) for tm_Service in Tm_Service.objects.all()],
           widget=CustomCheckboxSelectMultiple()
                ) 
-

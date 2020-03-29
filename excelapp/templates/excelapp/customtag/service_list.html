@@ -1,0 +1,23 @@
+{% load customtag %}
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">部門</th>
+        <th scope="col">サービス</th>
+        <th scope="col">アップロードファイル</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for service in tm_service %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{service.department.department_name}}</td>
+        <td>{{service.service_name}}</td>
+        <td>{% file_link service.upload_file.url service.upload_file.name %}</td>
+        <td><a href="{% url 'excelapp:upload_update' service.pk %}" class="btn btn-primary btn-lg">更新</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
