@@ -88,10 +88,10 @@ def update(request, pk):
             tm_service.upload_file.save(upload_file.name, upload_file)
             tm_service.save()
 
-            tm_servicecopy = Tm_Service()
+            # tm_servicecopy = Tm_Service()
 
 
-            tm_servicecopy.save()
+            # tm_servicecopy.save()
 
 
 
@@ -112,10 +112,12 @@ def confirm(request):
         return redirect('excelapp:upload_input')
     form_data = details['form_data']
     file_url = details['file_url']
-
+    file_path = details['file_path']
     context = {
         'form': ServiceForm(form_data),
         'uploadfile_url': file_url,
+        'uploadfile_path': file_path,
+        'uploadfile_name': os.path.basename(file_path),
     }
     return render(request, 'excelapp/upload/confirm.html', context)
 
@@ -133,5 +135,5 @@ def create(request):
     data = CustomFile.localfile_to_filefield(file_path)
     tm_service.upload_file = data
     tm_service.save()
-    ret = CustomFile.remove_dir(os.path.dirname(file_path))
+    # ret = CustomFile.remove_dir(os.path.dirname(file_path))
     return redirect('excelapp:upload_List')

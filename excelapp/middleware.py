@@ -14,7 +14,9 @@ class SimpleMiddleware:
 
     def process_exception(self, request, exception):
         print(exception)
-
+        context = {
+            'exception': exception
+        }
         if isinstance(exception, ValueError):
             context = dict(confict_details=str(exception))
             return TemplateResponse(request, 'excelapp/409.html', context, status=409)
@@ -23,6 +25,6 @@ class SimpleMiddleware:
         elif isinstance(exception, IndexError):
             pass   
         elif isinstance(exception, ObjectDoesNotExist):
-            return render(request, 'excelapp/error.html')          
+            return render(request, 'excelapp/error.html', context)          
         else:
-            return render(request, 'excelapp/error.html')
+            return render(request, 'excelapp/error.html', context)

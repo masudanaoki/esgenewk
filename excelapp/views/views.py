@@ -162,10 +162,6 @@ def formset(request):
     }
     return render(request, 'excelapp/formsetlist.html', context)
 
-
-
-
-
     # formset = ServiceCreateFormSet(request.POST or None)
     # if request.method == 'POST' and formset.is_valid():
     #     # formset.save()
@@ -177,3 +173,8 @@ def formset(request):
     # }
 
     # return render(request, 'excelapp/formsetlist.html', context)
+
+def rest(request):
+    context = {
+            }
+    return render(request, 'excelapp/rest.html', context)

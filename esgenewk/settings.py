@@ -142,6 +142,44 @@ STATICFILES_DIRS = [
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'C:\1doc\03_work\active\Project\A2HealthCare\esgenewk\static'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+
+import logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR + "/logs/django.log",
+            "formatter": "verbose",
+            "maxBytes": 1024 * 1024 * 1,
+            "backupCount": 5,
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "\t".join(
+                [
+                    "[%(levelname)s]",
+                    "%(asctime)s",
+                    "%(name)s.%(funcName)s:%(lineno)s",
+                    "%(message)s",
+                ]
+            )
+        },
+    },
+    "loggers": {
+        "file": {
+            "handlers": ["file"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": True,
+        },
+    },
+}

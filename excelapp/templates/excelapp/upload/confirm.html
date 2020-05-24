@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load customtag %}
 {% block content %}
     <div class="form-group">
         {{ form.department.label_tag }}
@@ -10,7 +11,9 @@
     </div>
     <div class="form-group">
         {{ form.upload_file.label_tag }}
-        <a href="{{uploadfile_url}}" class="">{{uploadfile_url}}</a>
+        <a href="{{uploadfile_url}}" class="" download="">{{uploadfile_url}}</a><br>
+        {% file_link uploadfile_url uploadfile_path %}<br>
+        <a href="{{uploadfile_url}}" class="" download="{{uploadfile_name}}">{{uploadfile_name}}</a><br>
     </div>
     <a href="{% url 'excelapp:upload_input' %}" class="btn btn-primary btn-lg">戻る</a>
     <a href="{% url 'excelapp:upload_create' %}" class="btn btn-primary btn-lg">送信</a>

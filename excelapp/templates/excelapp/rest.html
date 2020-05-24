@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+{% load widget_tweaks %}
+{% load customtag %}
+<h3>excelapp.rest({{user.username}})</h3>
+<script>
+    $(document).ready(function(){
+        $(window).on("beforeunload",function(e){
+            return "本当に離れますか？";
+        });
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+

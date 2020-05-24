@@ -50,12 +50,13 @@ class ServiceForm(forms.Form):
     def upload_file_save(self):
         infile = self.cleaned_data.get("upload_file")
         if infile:
-            tmppath = datetime.now().strftime('upload/temp/%Y%m%d/%H%M%S/')
+            # tmppath = datetime.now().strftime('upload/temp/%Y%m%d/%H%M%S/')
+            tmppath = ''
             url_, path_ = CustomFile.save_file(tmppath + infile.name, infile)
 
-            file_path = self.get_details('file_path')
-            if file_path:
-                CustomFile.remove_dir(os.path.dirname(file_path))
+            # file_path = self.get_details('file_path')
+            # if file_path:
+            #     CustomFile.remove_dir(os.path.dirname(file_path))
         else:
             url_ = self.get_details('file_url')
             path_ = self.get_details('file_path')

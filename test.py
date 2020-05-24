@@ -1,0 +1,7 @@
+print ("Status: 200 OK")
+print ("Content-type: text/html")
+print ("")
+print ("<HTML><HEAD><TITLE>Hello Python</TITLE></HEAD>")
+print ("<BODY>")
+print ("Hello Python World!")
+print ("</BODY>")

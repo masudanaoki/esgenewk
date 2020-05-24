@@ -20,4 +20,6 @@ urlpatterns = [
     path('upload/create/', upload.create, name='upload_create'),
 
     path('formset/', views.formset, name='formset'),
+
+    path('rest/', views.rest, name='rest'),
 ]

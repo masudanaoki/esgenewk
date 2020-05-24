@@ -2,7 +2,8 @@
 {% block content %}
 {% load static %}
 <h3>excelapp.bootstrapcomponents({{user.username}})</h3>
-<div class="alert alert-primary" role="alert">
+<div class="custom-class">
+  <div class="alert alert-primary" role="alert">
     <a href="#" class="alert-link">A simple primary</a>
   </div>
   <div class="alert alert-secondary" role="alert">
@@ -26,6 +27,7 @@
   <div class="alert alert-dark" role="alert">
     <a href="#" class="alert-link">A simple success</a>
   </div>
+</div>
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <strong>Holy guacamole!</strong> You should check in on some of those fields below.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -152,4 +154,29 @@
     </div>
   </div>
   <br>
+  <style>
+    .custom-class {
+      width: 100%;
+    }
+    @media (min-width: 576px) {
+      .custom-class {
+        width: 40rem;
+      }
+    }
+
+    /* @media (min-width: @screen-sm-min) {
+      .custom-class {
+        width: 40rem;
+      }
+    } */
+    /* .customwidth {
+      @media (min-width: 300px) {
+        width: 40rem;
+      }
+
+        /* @media (min-width: @screen-sm-min) {
+          width: 40rem;
+        } */
+    } */
+  </style>
 {% endblock %}
