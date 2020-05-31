@@ -1,5 +1,5 @@
 from django.urls import path
-from excelapp.views import views, upload
+from excelapp.views import views, upload, webapi
 
 app_name = 'excelapp'
 
@@ -22,4 +22,6 @@ urlpatterns = [
     path('formset/', views.formset, name='formset'),
 
     path('rest/', views.rest, name='rest'),
+
+    path('webapi/service_list/', webapi.service_list, name='webapi_service_list'), 
 ]

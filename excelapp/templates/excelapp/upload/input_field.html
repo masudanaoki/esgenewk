@@ -27,6 +27,7 @@
           {{ error }}
         </div>
         {% endfor %}
+        <span id="details"></span>
       </div>
     </div>
   </div>
@@ -36,7 +37,50 @@
   {% create_file_change form.upload_file %}
   {% endif %}
   <button type="submit" class="btn btn-primary btn-lg">送信</button>
+  <div style="background-color:#CCC; padding : 20px;">
+    日付入力<input type="text" id="wkCalender">
+  </div>
 </form>
+<script type="text/javascript">
+  $(function() {
+    // ドラッグ
+    $(".box").draggable({
+      containment:"#dragArea"
+    });
+    // ドロップ IN
+    $("#dropArea").droppable({
+      accept:".box",
+      drop: function(e, ui) { 
+        $("#infoArea").html(ui.draggable.text() + "　IN" );
+      },
+      // ドロップ OUT
+      out:function(event,ui){ 
+        $("#infoArea").html(ui.draggable.text() + "　OUT" );
+      }
+    });
+  });
+  </script>
+  <style>
+  .box{width:40px;height:40px;text-align:center;}
+  #box1{background-color:pink;}
+  #box2{background-color:orchid;}
+  #box3{background-color:skyblue;}
+  #dragArea{background-color:#CCC; padding : 20px;}
+  #dropArea{width:90%; height:100px; text-align:left; background-color:bisque;}
+  </style>
+  <div id="dragArea">
+    <div style="display:inline-flex; align-items: center;">
+      <div id="box1" class="box">１</div>　
+      <div id="box2" class="box">２</div>　
+      <div id="box3" class="box">３</div>
+    </div>
+  
+    <div id="dropArea">
+      <p>ドロップエリア</p>
+    </div>
+    <div id="infoArea">　
+    </div>
+  </div>
 <script>
   $(function(){
     $('.filebtn').on('click', function(){
@@ -57,6 +101,49 @@
     function showText( e ) {
       console.log(e.data.name);
     }
+  });
+  $(function() {
+    $("#wkCalender").datepicker();
+  });
+</script>
+<script type="text/javascript">
+  $(function() {
+  // 1details（項目の説明）キーを追加で宣言
+  var data = [
+    { label: 'acceptsメソッド', value: 'accepts',
+      details: 'クライアントがサポートしているコンテンツの種類' },
+    { label: 'action_nameメソッド', value: 'action_name',
+       details: '現在実行中のアクションメソッド' },
+    { label: 'addメソッド', value: 'add',
+       details: 'エラーメッセージを追加' },
+    { label: 'add_columnメソッド', value: 'add_column',
+       details: 'テーブルに新規カラムを追加' },
+    { label: 'add_indexメソッド', value: 'add_index',
+       details: 'テーブルにインデックスを追加' },
+    { label: 'add_timestampsメソッド', value: 'add_timestamps',
+       details: 'テーブルにタイムスタンプ列を追加' },
+    { label: 'after_createメソッド', value: 'after_create',
+       details: 'データを追加した後に実行されるコールバック' },
+    { label: 'after_destroyメソッド', value: 'after_destroy',
+       details: 'データを削除した後に実行されるコールバック' },
+    { label: 'after_filterメソッド', value: 'after_filter',
+       details: 'データを検索した後に実行されるコールバック' },
+    { label: 'allメソッド', value: 'all',
+       details: 'テーブルから全てのデータを取得' },
+  ];
+  
+    // 2オートコンプリート機能を適用
+    $('#id_service_name').autocomplete({
+      source: "{% url 'excelapp:webapi_service_list' %}",
+      autoFocus: true,
+      delay: 500,
+      minLength: 2,
+      select: function(e, ui) {
+      if (ui.item) {
+        $('#details').html(ui.item.value);
+      }
+    }
+    });
   });
 </script>
 {% endblock %}
